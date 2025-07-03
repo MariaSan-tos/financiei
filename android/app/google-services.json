@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "99881619174",
+    "project_id": "financiei-25512",
+    "storage_bucket": "financiei-25512.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:99881619174:android:15c9788153e1f6828a7527",
+        "android_client_info": {
+          "package_name": "com.example.flutter_personal_money_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXXi1JERd7HvSjn1NMj89XYUxiPWytYBY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
