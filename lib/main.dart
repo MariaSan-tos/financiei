@@ -1,64 +1,78 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_personal_money_app/view/main_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'firebase_options.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+import 'package:financiei/view/main_screen.dart';
+import 'package:financiei/view/login_screen.dart';
 
+void main() async {
+  // Garante que o Flutter e o Firebase sejam inicializados antes de rodar o app
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  runApp(const HomeApp());
+  runApp(const MyApp());
 }
 
-class HomeApp extends StatelessWidget {
-  const HomeApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Personal Expenses',
+      title: 'Financiei',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        fontFamily: 'Quicksand',
-        textTheme: ThemeData.light().textTheme.copyWith(
-              titleLarge: const TextStyle(
-                fontFamily: 'Quicksand',
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
-              labelLarge: const TextStyle(
-                color: Colors.purpleAccent,
-              ),
-            ),
-        appBarTheme: AppBarTheme(
-          toolbarTextStyle: ThemeData.light()
-              .textTheme
-              .copyWith(
-                titleLarge: const TextStyle(
-                  fontFamily: 'QuickSand',
-                  fontSize: 22,
-                  fontWeight: FontWeight.w100,
-                ),
-              )
-              .bodyMedium,
-          titleTextStyle: ThemeData.light()
-              .textTheme
-              .copyWith(
-                titleLarge: const TextStyle(
-                  fontFamily: 'QuickSand',
-                  fontSize: 22,
-                  fontWeight: FontWeight.w100,
-                ),
-              )
-              .titleLarge,
+        primarySwatch: Colors.purple,
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(
+          secondary: Colors.amber,
         ),
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple)
-            .copyWith(secondary: Colors.deepPurpleAccent),
+        fontFamily: 'Quicksand',
+        appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
-      home: const MainScreen(),
+      // A "home" agora é o nosso widget de verificação de autenticação
+      home: const AuthCheck(),
+    );
+  }
+}
+
+// Este widget é o coração da nossa lógica de login
+class AuthCheck extends StatelessWidget {
+  const AuthCheck({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // O StreamBuilder escuta em tempo real as mudanças no status de login
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        // 1. Enquanto está conectando, mostra uma tela de carregamento
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+
+        // 2. Se o snapshot tem dados (usuário não é nulo), o usuário está logado!
+        if (snapshot.hasData) {
+          // Mostra a tela principal do aplicativo
+          return const MainScreen();
+        }
+
+        // 3. Se não tem dados, o usuário não está logado
+        // Mostra a tela de login
+        return const LoginScreen();
+      },
     );
   }
 }

@@ -72,4 +72,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'financiei-25512.firebasestorage.app',
     iosBundleId: 'com.example.flutterPersonalMoneyApp',
   );
+
 }

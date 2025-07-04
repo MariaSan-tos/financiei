@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_personal_money_app/models/transactions.dart';
-import 'package:flutter_personal_money_app/widgets/chart.dart';
-import 'package:flutter_personal_money_app/widgets/new_transaction.dart';
-import 'package:flutter_personal_money_app/widgets/transaction_list.dart';
+import 'package:financiei/models/transactions.dart';
+import 'package:financiei/widgets/chart.dart';
+import 'package:financiei/widgets/new_transaction.dart';
+import 'package:financiei/widgets/transaction_list.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
